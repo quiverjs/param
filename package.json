@@ -1,0 +1,23 @@
+{
+  "author": {
+    "name": "Soares Chen",
+    "email": "soares.chen@gmail.com",
+    "url": "http://soareschen.com"
+  },
+  "name": "quiver-param",
+  "desription": "Utility function to enforce map-based arguments be entered correctly",
+  "version": "0.0.1",
+  "homepage": "https://github.com/quiverjs/param",
+  "repository": {
+    "url": "git@github.com:quiverjs/param.git"
+  },
+  "bugs": {
+    "url": "https://github.com/quiverjs/param/issues",
+    "email": "quiverjs@soareschen.com"
+  },
+  "licenses": {
+    "type": "MIT",
+    "url": "https://raw.github.com/quiverjs/license/master/LICENSE"
+  },
+  "main": "./lib/param"
+}
