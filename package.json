@@ -5,11 +5,19 @@
     "url": "http://soareschen.com"
   },
   "name": "quiver-param",
-  "desription": "Utility function to enforce map-based arguments be entered correctly",
-  "version": "0.0.1",
+  "desription": "Ensure keyword arguments are specified correctly inside argument objects",
+  "version": "0.0.2",
   "homepage": "https://github.com/quiverjs/param",
   "repository": {
     "url": "git@github.com:quiverjs/param.git"
+  },
+  "dependencies": {
+    "quiver-copy": ">=0.0.1",
+    "quiver-error": ">=0.0.2"
+  },
+  "devDependencies": {
+    "mocha": "1.8.x",
+    "should": "1.2.x"
   },
   "bugs": {
     "url": "https://github.com/quiverjs/param/issues",

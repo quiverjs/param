@@ -1,49 +1,93 @@
 
-var assert = require('assert')
-var defineParam = require('../lib/param.js').defineParam
+'use strict'
 
-var default1 = defineParam()
-  .required('foo')
-  .required('bar', function(arg) {
-    return (arg == 'bar') ? null : 'err'
+var should = require('should')
+var param = require('../lib/param')
+
+describe('param test', function() {
+  var paramSpecs = [
+    {
+      key: 'foo',
+      required: true,
+      valueType: 'string'
+    },
+    {
+      key: 'bar',
+      required: false,
+      defaultValue: 'bar default'
+    },
+    {
+      key: 'arr',
+      required: false,
+      valueType: 'array'
+    },
+    {
+      key: 'obj',
+      required: true,
+      innerParam: [
+        {
+          key: 'func',
+          required: true,
+          valueType: 'function'
+        }
+      ]
+    }
+  ]
+
+  var validateParam = param.createParamValidator(paramSpecs)
+
+  it('success test 1', function() {
+    var args = {
+      foo: 'foo value',
+      obj: {
+        func: function() { }
+      }
+    }
+
+    var err = validateParam(args)
+    should.not.exist(err)
+    args.bar.should.equal('bar default')
   })
-  .optional('baz', 'baz')
-  .optional('blah')
 
-var test1 = function(def) {
-  var args = {
-    foo: 'test',
-    bar: 'bar'
-  }
-  def.parseArgs(args)
-  assert.equal(args.baz, 'baz')
-  assert.equal(args.blah, undefined)
-}
+  it('success test 2', function() {
+    var args = {
+      foo: 'foo value',
+      bar: ['could', 'be', 'anything'],
+      arr: [ ],
+      obj: {
+        func: function() { },
+        extra: 'is ok'
+      }
+    }
 
-var test2 = function(def) {
-  var args = {
-    bar: 'bar'
-  }
-  assert.throws(function() {
-    def.parseArgs(args)
+    var err = validateParam(args)
+    should.not.exist(err)
   })
-}
 
-var test3 = function(def) {
-  var args = {
-    foo: 'foo',
-    bar: 'baz'
-  }
-
-  assert.throws(function() {
-    def.parseArgs(args)
+  it('missing required', function() {
+    var args = { }
+    var err = validateParam(args)
+    should.exist(err)
   })
-}
 
-var test = function(def) {
-  test1(def)
-  test2(def)
-  test3(def)
-}
+  it('missing inner value', function() {
+    var args = { 
+      foo: 'foo value',
+      obj: { }
+    }
+    var err = validateParam(args)
+    should.exist(err)
+  })
 
-test(default1)
+  it('wrong value type', function() {
+    var args = {
+      foo: 'foo value',
+      arr: 'not an array',
+      obj: { 
+        func: function() { } 
+      }
+    }
+    var err = validateParam(args)
+    should.exist(err)
+  })
+})

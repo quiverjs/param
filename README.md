@@ -2,4 +2,4 @@
 quiver-param
 ============
 
-Utility function to enforce map-based arguments be entered correctly
+Ensure keyword arguments are specified correctly inside argument objects
